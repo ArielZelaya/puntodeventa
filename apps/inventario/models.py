@@ -6,6 +6,6 @@ class Mercancia(models.Model):
 	cantidad=models.IntegerField(null=True)
 	class  Meta:
 		verbose_name='Mercancia'
-		verbose_name_plural:'Mercancias'
+		verbose_name_plural='Mercancias'
 	def __str__(self):
 		return '%s' %(self.Producto.nombre)
