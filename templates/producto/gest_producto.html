@@ -1,0 +1,141 @@
+{% extends 'base/base.html'%}
+
+{% block title%} Productos {% endblock%}
+{%block mn%}
+<meta name="description" content="Gestiona aqui todo lo referente a tus productos">
+    <meta name="keywords" content="producto, productos, gestionar productos, gestion producto">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <meta name="autor" content="Mi punto de venta">
+    <meta name="country" content="El Salvador">
+    <meta name="city" content="San Salvador">
+    <meta name="copyright" content="Mi punto de venta">
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Agregar Producto
+</button>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complete los datos del empleado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="container">
+            <form method="POST" action="">{% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Tipo">Tipo</label>
+                  
+                  <select class="custom-select" id="Tipo" name="Tipo">
+                    <option selected required>Tipo</option>
+                    {% for tipo in tipos%}
+                    <option value="{{tipo.id}}" >{{tipo.nombre}}</option>
+                    {% endfor%}
+                    
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Nombre">Nombre</label>
+                  <input name="Nombre" type="text" class="form-control" id="Nombre" placeholder="Nombre" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Marca">Marca</label>
+                  <input name="Marca" type="text" maxlength="50"   class="form-control" id="Marca" placeholder="Marca" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Precio">Precio</label>
+                  <input name="Precio" type="text" class="form-control" id="Precio" placeholder="Precio" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Codigo">Codigo</label>
+                  <input name="Codigo" type="text" maxlength="8" class="form-control" id="Codigo" placeholder="Codigo" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Descripcion">Descripcion</label>
+                  <input name="Descripcion" type="text" class="form-control" id="Descripcion" placeholder="Descripcion" maxlength="8" required>
+                </div>
+              </div>
+              
+             
+              <!--<div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Administrador
+                  </label>
+                </div>
+              </div>
+              -->
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+         <button type="submit" class="btn btn-success">Guardar</button>
+          </div>
+            </form>
+
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock%}
+{%block contenido%} 
+<!-- DataTables Example -->
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-table"></i>
+      Lista de Productos</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Codigo</th>
+              <th>Detalles</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Nombre</th>
+              <th>Marca</th>
+              <th>Precio</th>
+              <th>Codigo</th>
+              <th>Detalles</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for lista in ListaProductos %}
+            <tr>
+              <td>{{lista.nombre}}</td>
+              <td>{{lista.marca}}</td>
+              <td>{{lista.precio}}</td>
+              <td>{{lista.codigo}}</td>
+              <td><a class="btn btn-info"  href="{% url 'producto:det_pro' lista.id %}" role="button">Detalles</a></td>
+              <td><a class="btn btn-success" href="{% url 'producto:edi_pro' lista.id %}" role="button">Editar</a></td>
+              <td><a class="btn btn-danger" href="{% url 'producto:eli_pro' lista.id %}" role="button">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+
+</div>
+
+
+{% endblock%}

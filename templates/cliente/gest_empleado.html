@@ -1,0 +1,160 @@
+{% extends 'base/base.html'%}
+
+{% block title%} Empleados {% endblock%}
+{%block mn%}
+<meta name="description" content="Gestiona aqui todo lo referente a tus empleados">
+    <meta name="keywords" content="empleado, empleados, gestionar empleados, gestion enpleado">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <meta name="autor" content="Mi punto de venta">
+    <meta name="country" content="El Salvador">
+    <meta name="city" content="San Salvador">
+    <meta name="copyright" content="Mi punto de venta">
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="
+    margin-bottom: 5px;">
+  Agregar empleado
+</button>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complete los datos del empleado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="container">
+            <form method="POST" action="">{% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Nombres">Nombres</label>
+                  <input name="Nombres" type="text" class="form-control" id="Nombres" placeholder="Nombres" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Apellidos">Apellidos</label>
+                  <input name="Apellidos" type="text" class="form-control" id="Apellidos" placeholder="Apellidos" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Dui">Dui</label>
+                  <input name="Dui" type="text" maxlength="9"  pattern="-?[0-9]*(\.[0-9]+)?" class="form-control" id="Dui" placeholder="Dui" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="username">Usuario</label>
+                  <input name="username" type="text" class="form-control" id="username" placeholder="Usuario" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="password">Contraseña</label>
+                  <input name="Domicilio" type="password" maxlength="8" class="form-control" id="password" placeholder="Contraseña" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Telefono">Telefono</label>
+                  <input name="Telefono" type="text" class="form-control" id="Telefono" placeholder="Telefono" maxlength="8" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="email">email</label>
+                  <input name="email" type="text" class="form-control" id="Email" placeholder="Email" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Domicilio">Domicilio</label>
+                  <input name="Domicilio" type="text" class="form-control" id="Domicilio" placeholder="Domicilio" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Nit">Nit</label>
+                  <input name="Nit" type="text" maxlength="9" pattern="-?[0-9]*(\.[0-9]+)?" class="form-control" id="Nit" placeholder="Nit" maxlength="9" required>
+                </div>
+
+              </div>
+              <div class="form-row">
+                 <div class="form-group col-md-4">
+                  <label for="Isss">Isss</label>
+                  <input name="Isss" type="text" maxlength="9" pattern="-?[0-9]*(\.[0-9]+)?" class="form-control" id="Isss" placeholder="Isss" maxlength="9" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Nup">Nup</label>
+                  <input name="Nup" type="text" maxlength="9"  pattern="-?[0-9]*(\.[0-9]+)?"class="form-control" id="Nup" placeholder="Nup"maxlength="9" required >
+                </div>
+
+
+              </div>
+              <!--<div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Administrador
+                  </label>
+                </div>
+              </div>
+              -->
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+         <button type="submit" class="btn btn-success">Guardar</button>
+          </div>
+            </form>
+
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock%}
+{%block contenido%}
+<!-- DataTables Example -->
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-table"></i>
+      Lista de Empleados</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+              <th>Correo</th>
+              <th>Detalles</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+              <th>Correo</th>
+              <th>Detalles</th>
+              <th>Editar</th>
+              <th>Eliminar</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for lista in ListaEmpleados %}
+            <tr>
+              <td>{{lista.first_name}}</td>
+              <td>{{lista.last_name}}</td>
+              <td>{{lista.username}}</td>
+              <td>{{lista.email}}</td>
+              <td><a class="btn btn-info"  href="{% url 'usuario:det_emp' lista.id %}" role="button">Detalles</a></td>
+              <td><a class="btn btn-success" href="{% url 'usuario:edi_emp' lista.id %}" role="button">Editar</a></td>
+              <td><a class="btn btn-danger" href="{% url 'usuario:eli_emp' lista.id %}" role="button">Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+
+</div>
+
+
+{% endblock%}

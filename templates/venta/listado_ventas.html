@@ -1,0 +1,57 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% block title%} Productos {% endblock%}
+{%block mn%}
+<meta name="description" content="Gestiona aqui todo lo referente a tus ventas">
+    <meta name="keywords" content="venta, ventas, productos, gestionar ventas, gestion ventas">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <meta name="autor" content="Mi punto de venta">
+    <meta name="country" content="El Salvador">
+    <meta name="city" content="San Salvador">
+    <meta name="copyright" content="Mi punto de venta">
+<div class="card mb-3">
+    <div class="card-header">
+      <i class="fas fa-table"></i>
+      Lista de ventas</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Detalles</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Detalles</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for venta in ventas %}
+            <tr>
+              <td>{{venta.id}}</td>
+              <td>{{venta.cliente.first_name}} {{venta.cliente.last_name}}</td>
+              <td>{{venta.fecha}}</td>
+              <td>{{venta.total}}</td>
+              <td><a class="btn btn-info"  href="#" role="button">Detalles</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+  </div>
+
+</div>
+
+{% endblock%}

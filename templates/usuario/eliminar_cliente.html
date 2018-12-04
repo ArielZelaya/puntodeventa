@@ -1,0 +1,23 @@
+{% extends 'base/base.html'%}
+
+{% block title%} Eliminar Cliente  {% endblock%}
+{%block mn%} {% endblock %}
+
+{%block contenido%}
+
+<form method="POST" action="">
+    {% csrf_token %}
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Esta seguro que desea eliminar el cliente: {{cliente.first_name}}  {{cliente.last_name}} ?</h1>
+    <p class="lead">!!Esta accion no se puede deshacer!!</p>
+
+  </div>
+</div>
+<div class="modal-footer">
+        <a class="btn btn-primary" href="{% url 'usuario:ges_cli'%}" role="button">Cancelar</a>
+         <button type="submit" class="btn btn-danger">Eliminar</button>
+          </div>
+
+</form>
+{% endblock%}

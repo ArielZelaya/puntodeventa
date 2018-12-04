@@ -1,0 +1,262 @@
+{% extends 'base/base.html'%}
+{% load static %}
+{% block title%} Productos {% endblock%}
+{%block mn%}
+
+<div class="row">
+  {% csrf_token %}
+    <div class="col-xs-3 col-md-12">
+
+      <form action="#" id="formulario" >
+        <div class="input-group">
+          <select class="custom-select" id="clientes">
+            <option selected>Seleccionar cliente</option>
+            {% for c in clientes %}
+              <option value="{{c.id}}">{{ c.first_name }} {{ c.last_name }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+              <!-- Button trigger modal -->
+            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#exampleModal">Agregar nuevo cliente</button>
+          </div>
+        </div>
+        <br>
+
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Cantidad</span>
+            </div>
+            <input value="1" name="Cantidad" type="text" class="form-control" pattern="-?[0-9]*(\+)?" id="cantidad" maxlength="10"
+                 aria-label="Default" aria-describedby="inputGroup-sizing-default" required>
+          </div>
+        </div>
+
+        <div class="form-group col-md-8" >
+          <div class="input-group" >
+            <input id="codigo" type="text" class="form-control" placeholder="Buscar producto por código" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append" >
+              <button id="btn" onclick="obtenerProducto()"   class="btn btn-outline-secondary" type="button" >Agregar</button>
+              <!--<button class="btn btn-outline-secondary" type="button">Button</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- -->
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Complete los datos del cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="container">
+            <form  id=formulariomodal action="#">{% csrf_token %}
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Nombres">Nombres</label>
+                  <input name="Nombres" type="text" class="form-control" id="Nombres" placeholder="Nombres" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Apellidos">Apellidos</label>
+                  <input name="Apellidos" type="text" class="form-control" id="Apellidos" placeholder="Apellidos" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="username">Usuario</label>
+                  <input name="username" type="text" class="form-control" id="username" placeholder="Usuario" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Dui">Dui</label>
+                  <input name="Dui" type="text" maxlength="9"  pattern="-?[0-9]*(\.[0-9]+)?" class="form-control" id="Dui" placeholder="Dui" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Telefono">Telefono</label>
+                  <input name="Telefono" type="text" class="form-control" id="Telefono" placeholder="Telefono" maxlength="8" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="Direccion">Dirección</label>
+                  <input name="Direccion" type="text" class="form-control" id="Direccion" placeholder="Dirección" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="Tipo">Tipo</label>
+                  <input name="Tipo" type="text" maxlength="1" class="form-control" id="Tipo" placeholder="Tipo" required>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="email">Email</label>
+                  <input name="email" type="text" class="form-control" id="Email" placeholder="Email" required>
+                </div>
+
+              </div>
+
+              <!--<div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="gridCheck">
+                  <label class="form-check-label" for="gridCheck">
+                    Administrador
+                  </label>
+                </div>
+              </div>
+              -->
+
+          <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+         <button type="submit" class="btn btn-success">Guardar</button>
+          </div>
+            </form>
+
+    </div>
+    </div>
+  </div>
+</div>
+</form>
+        <!-- -->
+<button type="button" class="btn btn-danger" onclick="finalizar()">Finalizar</button>
+      <br><br>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Código</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Precio</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col"><i id="borrar" class="fa fa-trash" aria-hidden="true"></i></th>
+            </tr>
+          </thead>
+
+          <tbody id="linea">
+          </tbody>
+          <thead>
+            <tr>
+              <th scope="col">Total:</th>
+              <th id="total" scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">Total artículos:</th>
+              <th id="articulos" scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">
+              <th scope="col"></th>
+            </tr>
+          </thead>
+        </table>
+
+
+
+
+
+</div>
+
+</div>
+
+
+<!--
+    <div class="col-xs-3 col-md-4" style="padding-left: 0px;">
+    </div>
+-->
+</div>
+
+
+<!--
+<button type="button" data-name="Minion Hi" id="product-0101" value="TOY01" class="btn btn-both btn-flat product">
+    <span class="bg-img">
+        <img src="https://spos.tecdiary.com/uploads/thumbs/6988655f95602f9394f9315165f920fe.png" alt="Minion Hi" style="width: 100px; height: 100px;">
+    </span>
+    <span><span>Minion Hi</span></span>
+</button>
+-->
+
+<!--
+<section class="content-header">
+<h1>Dashboard</h1>
+</section>
+-->
+
+<!--
+
+<section class="content">
+
+
+
+      <div class="box-body">
+        <div class="row">
+
+          <div class="col-xs-3 col-md-8">
+            <div class="box box-success; d-block .d-sm-none">
+                <div class="box-header">
+                    <h3 class="box-title">Categorias</h3>
+                </div>
+            </div>
+            {% for c in categorias %}
+                  <div style="display:inline-block">
+                  <button type="button" onclick="agregarLinea()" class="btn btn-info" style="padding-right: 0rem; padding-bottom: 0rem; padding-top: 0rem;
+                  padding-left: 0rem; margin-bottom: 16px; margin-right: 16px;">
+                  <div type="button" class="card text-white bg-info o-hidden h-100" style="margin-bottom: 16px; margin-bottom: 0px; margin-right: 0px;">
+                    <a class="card-footer text-white clearfix small z-1" onclick="prueba()">
+                      <span class="float-left" id="categorias"></span>
+                    </a>
+                    <div class="card-body">
+                      <div class="card-body-icon">
+                        <i class="fa fa-list-ol" aria-hidden="true"></i> el fa-list es el icono del card
+                      </div>
+                      <span class="float-left" value="{{t.id}}" style="width: 130px; height: 80px;"><h4>{{c.nombre}}</h4></span>
+                    </div>
+                  </div>
+                  </button>
+                  </div>
+            {%endfor%}
+          </div>
+
+
+          <div class="col-xs-3 col-md-4" style="padding-left: 0px;">
+
+              <div class="box box-success; d-block .d-sm-none">
+                  <div class="box-header">
+                      <h2 class="box-title">Detalles</h2>
+                  </div>
+              </div>
+
+              <div class="alert alert-info" role="alert" style="padding-top: 0rem; padding-bottom: 0rem;
+                  margin-bottom: 0rem; padding-bottom: 0.30em">Categoria: </div>
+              <div class="alert alert-secondary" role="alert" style="padding-top: 0rem; padding-bottom: 0rem;
+                  margin-bottom: 0rem; padding-bottom: 0.30em">Tipo: </div>
+              <div class="alert alert-warning" role="alert" style="padding-top: 0rem; padding-bottom: 0rem;
+                  margin-bottom: 0rem; padding-bottom: 0.30em"> Producto: </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+</section>
+-->
+<!--TIPOS-->
+<!--PRODUCTOS-->
+
+
+<script>
+var input = document.getElementById("codigo");
+input.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("btn").click();
+    }
+});
+</script>
+<script src="{% static 'js/facturar.js' %}"></script>
+{% endblock%}
+

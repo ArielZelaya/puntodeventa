@@ -1,0 +1,23 @@
+{% extends 'base/base.html'%}
+
+{% block title%} Eliminar empleado  {% endblock%}
+{%block mn%} {% endblock %}
+
+{%block contenido%}
+
+<form method="POST" action="">
+    {% csrf_token %}
+  <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Esta seguro que desea eliminar el producto: {{mercancia.Producto.nombre}} del inventario?</h1>
+    <p class="lead">!!Esta accion no se puede deshacer!!</p>
+
+  </div>
+</div>
+<div class="modal-footer">
+        <a class="btn btn-primary" href="{% url 'inventario:ges_inv'%}" role="button">Cancelar</a>
+         <button type="submit" class="btn btn-danger">Eliminar</button>
+          </div>
+
+</form>
+{% endblock%}
