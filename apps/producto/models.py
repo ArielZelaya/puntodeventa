@@ -5,7 +5,7 @@ class Categoria(models.Model):
 	nombre=models.CharField(max_length=50)
 	class  Meta:
 		verbose_name='categoria'
-		
+		verbose_name_plural='categorias'
 	def __str__(self):
 		return '%s' %(self.nombre)
 class Tipo(models.Model):
@@ -13,7 +13,7 @@ class Tipo(models.Model):
 	categoria=models.ForeignKey(Categoria,on_delete=models.CASCADE)
 	class  Meta:
 		verbose_name='tipo'
-		verbose_name_plural:'tipos'
+		verbose_name_plural='tipos'
 	def __str__(self):
 		return '%s' %(self.nombre)
 		
@@ -27,7 +27,7 @@ class Producto(models.Model):
 	descripcion=models.CharField(max_length=150)
 	class  Meta:
 		verbose_name='producto'
-		verbose_name_plural:'productos'
+		verbose_name_plural='productos'
 	def __str__(self):
 		return '%s' %(self.nombre)
 
